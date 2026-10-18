@@ -1,31 +1,47 @@
 # Kimai Time Select
 
 A [Kimai 2](https://www.kimai.org) plugin that replaces the time inputs (the
-start/end times of a timesheet, and every other `data-timepicker` field) with
-two dropdowns:
+start/end times of a timesheet, and every other `data-timepicker` field) with a
+type-to-filter box over the day's quarter hours, instead of Kimai's long preset
+list where one hour and its AM/PM twin sit a few rows apart.
 
 ```
-[ clock ] [ 09 v ] : [ 00 v ]
+[ clock ] [ 8          ]
+          | 08:00  <   |
+          | 08:15      |
+          | 08:30      |
+          | 08:45      |
+          | 18:00      |
 ```
 
-- **Hour:** `00`–`23`, always, whatever your locale.
-- **Minute:** `00` / `15` / `30` / `45`.
+## Typing
 
-It replaces Kimai's long preset list, where one hour and its AM/PM twin sit a
-few rows apart and are easy to mix up.
+| You type        | First match                    |
+|-----------------|--------------------------------|
+| `9`             | 09:00, 09:15, 09:30, 09:45, then 19:xx |
+| `14`            | 14:00 … 14:45 (before 01:45)   |
+| `930` or `9:30` | 09:30                          |
+| `1445`          | 14:45                          |
+| `2p` / `230p`   | 14:00 / 14:30                  |
+| `1407`          | 14:07 (exact times off the quarter grid are offered as-is) |
+| nothing         | the whole day, starting at the current value |
+
+- **Keys:** ↑/↓ move, **Enter** picks (and does not submit the form),
+  **Tab** picks and moves to the next field, **Esc** cancels. Clicking an
+  entry works too. Emptying the box clears the time.
+- The box shows times as `HH:mm` (24 h) whatever your locale.
+- On phones it opens the numeric keypad.
 
 ## Behaviour
 
 - Kimai's original text input stays in the form, hidden, and is what gets
-  submitted. The dropdowns write to it in the format Kimai expects for your
-  locale (`HH:mm`, or `h:mm A` for 12-hour locales), so nothing changes
-  server-side.
-- Changing a dropdown fires the same events as Kimai's own "now" button, so
+  submitted. The box writes to it in the format Kimai expects for your locale
+  (`HH:mm`, or `h:mm A` for 12-hour locales), so nothing changes server-side.
+- Picking a time fires the same events as Kimai's own "now" button, so
   duration and end time are recalculated as usual.
-- The clock ("now") button still works; the dropdowns follow it.
-- A time that is not on a quarter hour (e.g. a timer stopped at 14:07) shows
-  its minute as an extra option instead of being silently rounded.
-- Tab goes hour → minute → next field.
+- The clock ("now") button still works; the box follows it.
+- Focusing the box and leaving without typing keeps the existing value, even
+  one off the quarter grid (e.g. a timer stopped at 14:07).
 - Works in edit forms opened in a modal (watches the page for new inputs).
 
 ## Install
