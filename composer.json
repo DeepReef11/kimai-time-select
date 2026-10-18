@@ -1,0 +1,16 @@
+{
+    "name": "deepreef11/kimai-time-select",
+    "description": "Replaces Kimai's time inputs with an hour (0-23) + quarter-hour dropdown pair",
+    "type": "kimai-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": { "KimaiPlugin\\TimeSelectBundle\\": "" }
+    },
+    "extra": {
+        "kimai": {
+            "require": 20000,
+            "name": "Time select"
+        }
+    }
+}

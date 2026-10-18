@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    # The bundle class itself must be a service too: autoconfigure tags it as
+    # a PluginInterface, which is how Kimai's plugin list finds it.
+    KimaiPlugin\TimeSelectBundle\:
+        resource: '../../*'
+        exclude: '../../{Resources,DependencyInjection}'
